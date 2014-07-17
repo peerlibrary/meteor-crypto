@@ -1,0 +1,12 @@
+{
+  "name": "crypto",
+  "description": "Efficient crypto operations in web workers",
+  "homepage": "https://github.com/peerlibrary/meteor-crypto",
+  "author": "The PeerLibrary Project",
+  "version": "0.1.0",
+  "git": "https://github.com/peerlibrary/meteor-crypto.git",
+  "packages": {
+    "assert": {},
+    "async": {}
+  }
+}
