@@ -7,6 +7,7 @@
   "git": "https://github.com/peerlibrary/meteor-crypto.git",
   "packages": {
     "assert": {},
-    "async": {}
+    "async": {},
+    "blob": {}
   }
 }
