@@ -39,4 +39,4 @@ API
 
 On the server side callbacks are not required and if omitted, methods are run as a
 [fibers](https://github.com/laverdet/node-fibers)-enabled synchronous ([blocking](https://github.com/peerlibrary/meteor-blocking))
-method.
+methods.
