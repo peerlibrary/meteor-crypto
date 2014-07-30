@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
-var port = 10015
+var port = 3000
 
 var workingDir = process.env.WORKING_DIR || process.env.PACKAGE_DIR || './';
 var args = ['test-packages', '--once', '-p', port];
