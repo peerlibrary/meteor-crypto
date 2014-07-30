@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 var spawn = require('child_process').spawn;
+var port = 10015
 
 var workingDir = process.env.WORKING_DIR || process.env.PACKAGE_DIR || './';
-var args = ['test-packages', '--once', '-p', 10015];
+var args = ['test-packages', '--once', '-p', port];
 if (typeof process.env.PACKAGES === 'undefined') {
   args.push('./');
 }
@@ -19,8 +20,22 @@ meteor.on('close', function (code) {
 
 meteor.stdout.on('data', function startTesting(data) {
   var data = data.toString();
-  if(data.match(/10015|test-in-console listening/)) {
+  if(data.match(/10015|test-in-browser listening/)) {
     console.log('starting testing...');
     meteor.stdout.removeListener('data', startTesting);
-  } 
+    runTestSuite()
+  }
 });
+
+function runTestSuite() {
+  var args = ['sauce.js', 'saucelabs-config.json', 'localhost:' + port];
+  console.log(args);
+  var sauce = spawn('node', args, {cwd: workingDir});
+  sauce.stdout.pipe(process.stdout);
+  sauce.stderr.pipe(process.stderr);
+
+  sauce.on('close', function(code) {
+    meteor.kill('SIGQUIT');
+    process.exit(code);
+  });
+}
