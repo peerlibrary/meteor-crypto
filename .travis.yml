@@ -3,7 +3,12 @@ node_js:
 - '0.10'
 before_install:
 - cd .. && mv meteor-crypto crypto && cd crypto
-- curl -L http://git.io/ejPSng | /bin/sh
+- curl https://install.meteor.com | /bin/sh
+- npm install -g meteorite
+- mrt update
+script:
+- node start_test.js
+- node runtests.js saucelabs_config.js localhost:10015
 env:
   global:
   - secure: UVSjHX2CRfObJnGVSARgdMTQfA/bCRtvBwufbkUVxey83M2xnagTHYF2syV3K3aHCclULK8harzbgxpIfIdA4X6JMJtMYRaodWuSoDDVkEUceJvMT5CTRE0WM0g8zrH+1ufHtBtv6WwVtmL47Cado0oNrxjSHhfYITbRoXYIJaM=
