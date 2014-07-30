@@ -5,10 +5,15 @@ before_install:
 - cd .. && mv meteor-crypto crypto && cd crypto
 - curl https://install.meteor.com | /bin/sh
 - npm install -g meteorite
+- npm install -g underscore
+- npm install -g fs
+- npm install -g http
+- npm install -g wd
+- npm install -g wd-sync
+- npm install -g when
 - mrt update
 script:
 - node start_test.js
-- node runtests.js saucelabs_config.js localhost:10015
 env:
   global:
   - secure: UVSjHX2CRfObJnGVSARgdMTQfA/bCRtvBwufbkUVxey83M2xnagTHYF2syV3K3aHCclULK8harzbgxpIfIdA4X6JMJtMYRaodWuSoDDVkEUceJvMT5CTRE0WM0g8zrH+1ufHtBtv6WwVtmL47Cado0oNrxjSHhfYITbRoXYIJaM=
