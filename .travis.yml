@@ -5,12 +5,7 @@ before_install:
 - cd .. && mv meteor-crypto crypto && cd crypto
 - curl https://install.meteor.com | /bin/sh
 - npm install -g meteorite
-- npm install -g underscore
-- npm install -g http
-- npm install -g wd
-- npm install -g wd-sync
-- npm install -g when
-- npm install -g coffee-script
+- npm install
 - mrt update
 script:
 - node start_test.js
