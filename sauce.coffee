@@ -141,6 +141,7 @@ run_tests_on_browser = (run, browser_capabilities) ->
   capabilities = _.extend browser_capabilities,
     'max-duration': 120
     name: test_config.name
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
 
   client.sync ->
     test_status = null
