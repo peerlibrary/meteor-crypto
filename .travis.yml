@@ -3,6 +3,7 @@ node_js:
 - '0.10'
 before_install:
 - curl https://install.meteor.com | /bin/sh
+- cd .. && mv meteor-crypto crypto && cd crypto
 - npm install -g meteorite
 - npm install
 - mrt update

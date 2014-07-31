@@ -1,5 +1,5 @@
 {
-  "name": "example tinytest",
+  "name": "Crypto package tinytest",
   "where": "saucelabs",
   "parallelTests": 1,
   "browsers": [
