@@ -28,9 +28,9 @@ meteor.stdout.on('data', function startTesting(data) {
 });
 
 function runTestSuite() {
-  var args = ['sauce.js', 'saucelabs-config.json', 'localhost:' + port];
+  var args = ['sauce.coffee', 'saucelabs-config.json', 'localhost:' + port];
   console.log(args);
-  var sauce = spawn('node', args, {cwd: workingDir});
+  var sauce = spawn('./node_modules/.bin/coffee', args, {cwd: workingDir});
   sauce.stdout.pipe(process.stdout);
   sauce.stderr.pipe(process.stderr);
 
