@@ -1,0 +1,37 @@
+{
+  "name": "Crypto package tinytest",
+  "where": "saucelabs",
+  "parallelTests": 1,
+  "browsers": [
+    {
+      "browserName": "firefox",
+      "version": "31",
+      "platform": "Linux"
+    },
+    {
+      "browserName": "chrome",
+      "version": "36",
+      "platform": "Linux"
+    },
+    {
+      "browserName": "opera",
+      "version": "12",
+      "platform": "Linux"
+    },
+    {
+      "browserName": "chrome",
+      "version": "26",
+      "platform": "Windows 7"
+    },
+    {
+      "browserName": "firefox",
+      "version": "31",
+      "platform": "Windows XP"
+    },
+    {
+      "browserName": "safari",
+      "version": "5",
+      "platform": "Snow Leopard"
+    }
+  ]
+}

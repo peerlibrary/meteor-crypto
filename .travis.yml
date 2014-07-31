@@ -2,11 +2,8 @@ language: node_js
 node_js:
 - '0.10'
 before_install:
-- curl https://install.meteor.com | /bin/sh
 - cd .. && mv meteor-crypto crypto && cd crypto
-- npm install -g meteorite
-- npm install
-- mrt update
+- curl --no-sessionid https://raw.githubusercontent.com/peerlibrary/travis-ci-meteor-packages/saucelabs/configure.sh | sh
 script:
 - node start_test.js
 env:
