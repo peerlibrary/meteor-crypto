@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "underscore": ">= 1.6.0",
+    "wd": ">= 0.3.4",
     "wd-sync": ">= 1.2.5",
     "when": ">= 3.4.2",
     "coffee-script": ">= 1.7.1"
