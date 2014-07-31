@@ -7,6 +7,9 @@ _when     = require 'when'
 parallel  = require 'when/parallel'
 sequence  = require 'when/sequence'
 
+http_requests_without_response = 0
+exit_status = null
+
 read_json_file = (file_path) ->
   contents = fs.readFileSync file_path, 'utf-8'
   try
@@ -40,6 +43,8 @@ sauce_key = read_json_file saucelabs_key_file
 _set_saucelabs_test_data = (config, jobid, data, cb) ->
   body = new Buffer(JSON.stringify(data))
 
+  http_requests_without_response++
+  console.log "Sending request"
   req = http.request(
     {
       hostname: 'saucelabs.com'
@@ -51,10 +56,12 @@ _set_saucelabs_test_data = (config, jobid, data, cb) ->
         'Content-length': body.length
     },
     ((res) ->
+      http_requests_without_response--
       if res.statusCode is 200
         cb(null)
       else
         cb('http status code ' + res.statusCode)
+      exitIfFinished()
     )
   )
 
@@ -185,14 +192,18 @@ run_tests_on_browser = (run, browser_capabilities) ->
         ## with Opera.
         browser.window mainWindowHandle
 
-        if not browser.hasElementByCssSelector('.running') and not browser.hasElementByCssSelector('.failed')
+        hasRunning = browser.hasElementByCssSelector('.running')
+        hasFailed = browser.hasElementByCssSelector('.failed')
+        hasPassed = browser.hasElementByCssSelector('.succeeded')
+
+        if not hasRunning and not hasFailed and hasPassed
           status: 'pass'
           passedCount: browser.elementsByCssSelector('.succeeded').length
           failedCount: 0
-        else if not browser.hasElementByCssSelector('.running') and browser.hasElementByCssSelector('.failed')
+        else if not hasRunning and (hasFailed or not hasPassed)
           status: 'fail'
-          passedCount: browser.elementsByCssSelector('.succeeded').length
-          failedCount: browser.elementsByCssSelector('.failed').length
+          passedCount: browser.elementsByCssSelector('.succeeded')?.length or 0
+          failedCount: browser.elementsByCssSelector('.failed')?.length or 0
         else
           null
       ), (->
@@ -234,8 +245,9 @@ run_tests_on_browser = (run, browser_capabilities) ->
       log run, 'invalid test status'
 
     if test_config.where is 'saucelabs'
-      log 'setting test status at saucelabs', test_status?.status is 'pass'
-      set_test_status(session_id, test_status?.status is 'pass')
+      saucelabs_test_status = test_status and test_status.status is 'pass'
+      log 'setting test status at saucelabs', saucelabs_test_status
+      set_test_status(session_id, saucelabs_test_status)
       .otherwise((reason) ->
         console.log run, 'failed to set test status at saucelabs:', reason
       )
@@ -274,20 +286,30 @@ run_browsers_in_parallel = (group) ->
       _.every result
     ,
       (error) ->
-        console.log "Parallel rejected: " + error
+        console.log "Browser test error: " + error
+        error
 
 run_groups_in_sequence = (groups) ->
   tasks = _.map(groups, run_browsers_in_parallel)
   sequence(tasks).then (result) ->
     result = _.every result
     if result
-      process.exit 0
+      exit_status = 0
+      exitIfFinished()
     else
-      process.exit 1
+      exit_status = 1
+      exitIfFinished()
   ,
     (error) ->
-      process.exit 2
+      console.log "Browser test error: " + error
+      exit_status = 2
+      exitIfFinished()
 
 number_of_tests_to_run_in_parallel = test_config.parallelTests ? 1
 
 run_groups_in_sequence(group(number_of_tests_to_run_in_parallel, test_config.browsers))
+
+exitIfFinished = ->
+  return if http_requests_without_response or exit_status is null
+  console.log "Exiting with status " + exit_status
+  process.exit exit_status
