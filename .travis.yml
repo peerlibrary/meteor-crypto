@@ -10,6 +10,7 @@ before_install:
 - npm install -g wd
 - npm install -g wd-sync
 - npm install -g when
+- npm install -g coffee-script
 - mrt update
 script:
 - node start_test.js
