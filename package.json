@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "underscore": ">= 1.6.0",
+    "wd-sync": ">= 1.2.5",
+    "when": ">= 3.4.2"
+  }
+}
