@@ -31,7 +31,12 @@
     {
       "browserName": "safari",
       "version": "5",
-      "platform": "Snow Leopard"
+      "platform": "Mac 10.9"
+    },
+    {
+      "browserName": "firefox",
+      "version": "20",
+      "platform": "Mac 10.9"
     }
   ]
 }
