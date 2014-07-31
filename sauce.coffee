@@ -186,9 +186,13 @@ run_tests_on_browser = (run, browser_capabilities) ->
         browser.window mainWindowHandle
 
         if not browser.hasElementByCssSelector('.running') and not browser.hasElementByCssSelector('.failed')
-          'pass'
+          status: 'pass'
+          passedCount: browser.elementsByCssSelector('.succeeded').length
+          failedCount: 0
         else if not browser.hasElementByCssSelector('.running') and browser.hasElementByCssSelector('.failed')
-          'fail'
+          status: 'fail'
+          passedCount: browser.elementsByCssSelector('.succeeded').length
+          failedCount: browser.elementsByCssSelector('.failed').length
         else
           null
       ), (->
@@ -222,16 +226,23 @@ run_tests_on_browser = (run, browser_capabilities) ->
       catch e
         log run, 'unable to quit browser', e
 
-    log run, 'tests finished:', test_status
+    if test_status
+      log run, 'tests passed: ' + test_status.passedCount
+      log run, 'tests failed: ' + test_status.failedCount
+      log run, 'status: ' + test_status.status
+    else
+      log run, 'invalid test status'
 
     if test_config.where is 'saucelabs'
-      log 'setting test status at saucelabs', test_status is 'pass'
-      set_test_status(session_id, test_status is 'pass')
+      log 'setting test status at saucelabs', test_status?.status is 'pass'
+      set_test_status(session_id, test_status?.status is 'pass')
       .otherwise((reason) ->
         console.log run, 'failed to set test status at saucelabs:', reason
       )
-    if test_status is 'pass' or test_status is 'fail'
-      done.resolve()
+    if test_status?.status is 'pass'
+      done.resolve 1
+    else if test_status?.status is 'fail'
+      done.resolve 0
     else
       done.reject()
 
@@ -258,11 +269,24 @@ gen_task = (browser_caps) ->
 
 run_browsers_in_parallel = (group) ->
   tasks = _.map(group, gen_task)
-  -> parallel(tasks)
+  ->
+    parallel(tasks).then (result) ->
+      _.every result
+    ,
+      (error) ->
+        console.log "Parallel rejected: " + error
 
 run_groups_in_sequence = (groups) ->
   tasks = _.map(groups, run_browsers_in_parallel)
-  sequence(tasks)
+  sequence(tasks).then (result) ->
+    result = _.every result
+    if result
+      process.exit 0
+    else
+      process.exit 1
+  ,
+    (error) ->
+      process.exit 2
 
 number_of_tests_to_run_in_parallel = test_config.parallelTests ? 1
 
