@@ -37,6 +37,5 @@ API
     * `error`: error or null if there is no error
     * `sha256`: result as a hex string
 
-On the server side callbacks are not required and if omitted, methods are run as a
-[fibers](https://github.com/laverdet/node-fibers)-enabled synchronous ([blocking](https://github.com/peerlibrary/meteor-blocking))
-methods.
+On the server side callbacks are not required. Methods are run synchronous
+anyway.
