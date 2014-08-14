@@ -5,10 +5,13 @@ before_install:
 - cd .. && mv meteor-crypto crypto && cd crypto
 - curl --no-sessionid https://raw.githubusercontent.com/peerlibrary/travis-ci-meteor-packages/saucelabs/configure.sh | sh
 script:
-- node start_test.js
+- coffee start_test.coffee
 env:
   global:
+  - TERM: xterm-256colors
   - secure: UVSjHX2CRfObJnGVSARgdMTQfA/bCRtvBwufbkUVxey83M2xnagTHYF2syV3K3aHCclULK8harzbgxpIfIdA4X6JMJtMYRaodWuSoDDVkEUceJvMT5CTRE0WM0g8zrH+1ufHtBtv6WwVtmL47Cado0oNrxjSHhfYITbRoXYIJaM=
   - secure: EKsAjnnuKxhAKqeB/EyX4G/2iAFnXEsjl5RZKFur44oWOQaVHOOuUKW6ItmCWSigX4K8Jv/n3EAMLvHqYoL5851XjU1+YJNSBngz34rUJ3dzAtO/m0ftISaYTsEqbOMhn2XBglawdpOADSQOS52vsE5qb4PiPyO8tYGEdc9YwL8=
+  - TEST_ON_PHANTOMJS=1
+  - TEST_ON_SAUCELABS=1
 addons:
   sauce_connect: true
