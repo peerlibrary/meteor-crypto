@@ -1,9 +1,12 @@
 Package.describe({
-  summary: "Efficient crypto operations in web workers"
+  summary: "Efficient crypto operations in web workers",
+  version: '0.1.2',
+  git: 'https://github.com/peerlibrary/meteor-crypto.git'
 });
 
 Package.on_use(function (api) {
-  api.use(['coffeescript', 'underscore', 'assert'], ['client', 'server']);
+  api.versionsFrom('METEOR@0.9.1.1');
+  api.use(['coffeescript', 'underscore', 'peerlibrary:assert@0.2.5'], ['client', 'server']);
 
   api.export('Crypto');
 
@@ -33,7 +36,7 @@ Package.on_use(function (api) {
 });
 
 Package.on_test(function (api) {
-  api.use(['crypto', 'tinytest', 'test-helpers', 'coffeescript', 'underscore', 'async', 'blob'], ['client', 'server']);
+  api.use(['peerlibrary:crypto', 'tinytest', 'test-helpers', 'coffeescript', 'underscore', 'peerlibrary:async@0.9.0-2', 'peerlibrary:blob@0.1.2'], ['client', 'server']);
 
   api.add_files([
     'tests/common.coffee',

@@ -1,4 +1,4 @@
-@TEST_ROOT = '/packages/crypto'
+@TEST_ROOT = '/packages/peerlibrary:crypto'
 @PDF_FILENAME = 'assets/test.pdf'
 @PDF_HASH = '750cb3269e8222c05548184a2814b8f4b102e9157fe5fd498cfcaeb237fbd38f'
 @PDF_BYTE_LENGTH = 13069
