@@ -1,6 +1,0 @@
-language: node_js
-node_js:
-  - "0.10"
-before_install:
-  - cd .. && mv meteor-crypto crypto && cd crypto
-  - curl -L http://git.io/ejPSng | /bin/sh

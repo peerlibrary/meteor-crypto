@@ -1,3 +1,0 @@
-[submodule "digest.js"]
-	path = digest.js
-	url = https://github.com/peerlibrary/digest.js.git
