@@ -1,7 +1,5 @@
 {
   "name": "Crypto package tinytest",
-  "where": "saucelabs",
-  "parallelTests": 1,
   "browsers": [
 
     { "browserName": "chrome", "version": "26", "platform": "Windows 7" },
