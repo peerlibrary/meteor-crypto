@@ -1,12 +1,12 @@
 Package.describe({
   summary: "Efficient crypto operations in web workers",
-  version: '0.1.2',
+  version: '0.1.3',
   name: 'peerlibrary:crypto',
   git: 'https://github.com/peerlibrary/meteor-crypto.git'
 });
 
 Package.on_use(function (api) {
-  api.versionsFrom('METEOR@0.9.1.1');
+  api.versionsFrom('METEOR@0.9.3');
   api.use(['coffeescript', 'underscore', 'peerlibrary:assert@0.2.5'], ['client', 'server']);
 
   api.export('Crypto');
