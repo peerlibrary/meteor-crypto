@@ -19,6 +19,8 @@ Crypto =
         return callback error if callback
         throw error
 
+      # We ignore the result from onProgress because we are processing all data
+      # in update in one chunk anyway and there is nothing to prematurely abort
       if @size?
         @onProgress @_total / @size
       else

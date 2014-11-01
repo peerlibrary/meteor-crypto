@@ -1,7 +1,8 @@
 Crypto =
   SHA256: class
     # params:
-    #   onProgress(progress): progress callback function (optional)
+    #   onProgress(progress): progress callback function, if it returns false
+    #                         update prematurely stops, if possible (optional)
     #     progress: float, between 0 and 1 (inclusive), if it can be computed
     #   size: complete file size, if known (optional)
     constructor: (params) ->

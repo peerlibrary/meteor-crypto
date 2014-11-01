@@ -21,7 +21,7 @@ API
 
 `var sha256 = new Crypto.SHA256(params)` creates an object representing a new SHA256 computation. It takes object `params`:
 
- * `onProgress(progress)`: progress callback function (optional)
+ * `onProgress(progress)`: progress callback function, if it returns `false` update prematurely stops, if possible (optional)
     * `progress`: float, between 0 and 1 (inclusive), if it can be computed
  * `size`: complete file size, if known (optional)
 

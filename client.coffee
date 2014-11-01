@@ -134,9 +134,12 @@ class BaseCryptoWorker
     @handler =
       chunkDone: =>
         progress = @totalSizeProcessed / (@size or @totalSizeQueued)
-        @onProgress progress
-        @busy = false
-        @nextInQueue()
+        shouldContinue = @onProgress progress
+        if shouldContinue is false
+          @handler.done()
+        else
+          @busy = false
+          @nextInQueue()
 
       done: (result) =>
         @destroy()

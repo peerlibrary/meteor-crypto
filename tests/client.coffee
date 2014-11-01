@@ -162,3 +162,42 @@ for disableWorker in [true, null]
             test.equal progressCount, Math.ceil(chunkCount)
             onComplete()
     ]
+
+    testAsyncMulti "crypto - progress callback cancel (disableWorker: #{ disableWorker })", [
+      (test, expect) ->
+        getPdf expect (error, pdf) =>
+          test.isFalse error, error?.toString?() or error
+          test.isTrue pdf
+          @pdf = pdf
+    ,
+      (test, expect) ->
+        onComplete = expect()
+
+        round = (number) ->
+          number.toPrecision 5
+        chunkCount = @pdf.byteLength / CHUNK_SIZE
+        progressStep = 1 / chunkCount
+        expectedProgress = 0
+        progressCount = 0
+
+        hash = createHash
+          size: @pdf.byteLength
+          disableWorker: disableWorker
+          onProgress: (progress) ->
+            expectedProgress += progressStep
+            expectedProgress = 1 if expectedProgress > 1
+            progressCount++
+            test.equal round(progress), round(expectedProgress)
+            # Stop after two chunks
+            return false if progressCount is 2
+
+        hash.update @pdf, (error) ->
+          test.isFalse error, error?.toString?() or error
+          test.equal progressCount, 2
+          test.equal round(2 * progressStep), round(expectedProgress)
+
+          # It should be an error to try to finalize stopped hash
+          hash.finalize (error, result) ->
+            test.equal error?.toString?(), "Error: Reusing consumed instance", error?.toString?()
+            onComplete()
+    ]
