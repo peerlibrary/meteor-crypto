@@ -13,7 +13,7 @@ Installation
 ------------
 
 ```
-mrt add crypto
+meteor add peerlibrary:crypto
 ```
 
 API
