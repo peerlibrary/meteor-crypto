@@ -1,6 +1,6 @@
 Package.describe({
   summary: "Efficient crypto operations in web workers",
-  version: '0.2.0',
+  version: '0.2.1',
   name: 'peerlibrary:crypto',
   git: 'https://github.com/peerlibrary/meteor-crypto.git'
 });
