@@ -37,7 +37,7 @@ Package.on_use(function (api) {
 });
 
 Package.on_test(function (api) {
-  api.use(['peerlibrary:crypto', 'tinytest', 'test-helpers', 'coffeescript', 'underscore', 'peerlibrary:async@0.9.0-2', 'peerlibrary:blob@0.1.2'], ['client', 'server']);
+  api.use(['peerlibrary:crypto', 'tinytest', 'test-helpers', 'coffeescript', 'underscore', 'peerlibrary:async@0.9.0-2', 'peerlibrary:blob@0.1.2', 'random'], ['client', 'server']);
 
   api.add_files([
     'tests/common.coffee',
